@@ -1,22 +1,23 @@
-import pygame
-import sys
-import Namegen, cat, clan
+import pygame, sys
+from clan import Clan
+from Namegen import *
+from cat import Cat
 from pygame.locals import *
 from PIL import Image
 
-kitty = cat.Cat(6,'kit')
+kitty = Cat(6,'kit')
 kitty.Setup()
 kitty.Ceramony("Apprentice")
 
 warriors = 12
-WindClan = clan.Clan("WindClan",warriors)
+WindClan = Clan("WindClan",warriors)
 WindClan.AddCat(kitty)
 WindClan.SayCats()
-ThunderClan = clan.Clan("ThunderClan",warriors)
+ThunderClan = Clan("ThunderClan",warriors)
 ThunderClan.SayCats()
-ShadowClan = clan.Clan("ShadowClan",warriors)
+ShadowClan = Clan("ShadowClan",warriors)
 ShadowClan.SayCats()
-RiverClan = clan.Clan("RiverClan",warriors)
+RiverClan = Clan("RiverClan",warriors)
 RiverClan.SayCats()
 
 run = True

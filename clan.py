@@ -1,4 +1,4 @@
-import Namegen
+from Namegen import *
 from random import randint
 from cat import Cat
 
@@ -8,17 +8,17 @@ class Clan():
         self.allCats = []
 
         self.leader = Cat(randint(30,120),"Leader")#create leader
-        self.leader.NPCSetup(Namegen.RandomName(True) + "star")
+        self.leader.NPCSetup(RandomName(True) + "star")
         self.allCats.append(self.leader)
 
         self.deputy = Cat(randint(25,120),"Deputy")#create deputy
-        self.deputy.NPCSetup(Namegen.GenerateName())
+        self.deputy.NPCSetup(GenerateName())
         self.allCats.append(self.deputy)                  
 
         I = 0
         while I < warriors:#create warriors
-            self.tempname = Namegen.GenerateName()
-            if Namegen.SearchName(self.tempname,self.allCats) == True or Namegen.AvoidName(self.tempname) == True:
+            self.tempname = GenerateName()
+            if SearchName(self.tempname,self.allCats) == True or AvoidName(self.tempname) == True:
                 I = I - 1 #skip this iteneration
                 print ("caught bad name " + self.tempname)
             self.warrior = Cat(randint(25,120),"Warrior")
@@ -28,8 +28,8 @@ class Clan():
         I = 0
         
         while I < warriors * 0.15: #create apprentices
-            self.tempname = Namegen.RandomName(True) + "paw"
-            if Namegen.SearchName(self.tempname,self.allCats) == True or Namegen.AvoidName(self.tempname) == True:
+            self.tempname = RandomName(True) + "paw"
+            if SearchName(self.tempname,self.allCats) == True or AvoidName(self.tempname) == True:
                 I = I - 1 #skip this iteneration
                 print ("caught bad name " + self.tempname)
             self.apprentice = Cat(randint(6,25),"Apprentice")
@@ -38,8 +38,8 @@ class Clan():
             I = I + 1
         I = 0
         while I < warriors * 0.2: #create elders
-            self.tempname = Namegen.GenerateName()
-            if Namegen.SearchName(self.tempname,self.allCats) == True or Namegen.AvoidName(self.tempname) == True:
+            self.tempname = GenerateName()
+            if SearchName(self.tempname,self.allCats) == True or AvoidName(self.tempname) == True:
                 I = I - 1 #skip this iteneration
                 print ("caught bad name " + self.tempname)
             self.elder = Cat(randint(120,150),"Elder")
