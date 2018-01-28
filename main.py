@@ -5,22 +5,29 @@ from cat import Cat
 from pygame.locals import *
 from PIL import Image
 
+EveryCat = []
+
 kitty = Cat(6,'kit')
 kitty.Setup()
 kitty.Ceramony("Apprentice")
 
 warriors = 10
-WindClan = Clan("WindClan",warriors)
-WindClan.AddCat(kitty)
-WindClan.SayCats()
+WindClan = Clan("WindClan",warriors,EveryCat)
+WindClan.AddCat(kitty,"Apprentice",EveryCat)
+#WindClan.SayCats()
 WindClan.ChooseMentor(kitty)
-ThunderClan = Clan("ThunderClan",warriors+10)
-ThunderClan.SayCats()
-ShadowClan = Clan("ShadowClan",0)#ShadowClan is dead
-ShadowClan.SayCats()
-RiverClan = Clan("RiverClan",warriors)
-RiverClan.SayCats()
+ThunderClan = Clan("ThunderClan",warriors+10,EveryCat)
+#ThunderClan.SayCats()
+ShadowClan = Clan("ShadowClan",0,EveryCat)#ShadowClan is dead
+#ShadowClan.SayCats()
+RiverClan = Clan("RiverClan",warriors,EveryCat)
+#RiverClan.SayCats()
 #SkyClan isn't a real clan
+
+I=0
+while I < len(EveryCat):
+    print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
+    I=I + 1
 
 run = True
 clock = pygame.time.Clock()
