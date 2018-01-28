@@ -35,7 +35,7 @@ def SearchName(target,cats):
 
 def AvoidName(target):
     BadNames = ["Featherfeather","Berryberry","Shadeshade","Poppypoppy",
-		"Fernfern","Cloudcloud","Waterwater"]
+		"Fernfern","Cloudcloud","Waterwater","Frostfrost"]
     I = 0
     while I < len(BadNames):
         if target == BadNames[I]: return True

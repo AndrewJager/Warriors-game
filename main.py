@@ -9,16 +9,18 @@ kitty = Cat(6,'kit')
 kitty.Setup()
 kitty.Ceramony("Apprentice")
 
-warriors = 12
+warriors = 10
 WindClan = Clan("WindClan",warriors)
 WindClan.AddCat(kitty)
 WindClan.SayCats()
-ThunderClan = Clan("ThunderClan",warriors)
+WindClan.ChooseMentor(kitty)
+ThunderClan = Clan("ThunderClan",warriors+10)
 ThunderClan.SayCats()
-ShadowClan = Clan("ShadowClan",warriors)
+ShadowClan = Clan("ShadowClan",0)#ShadowClan is dead
 ShadowClan.SayCats()
 RiverClan = Clan("RiverClan",warriors)
 RiverClan.SayCats()
+#SkyClan isn't a real clan
 
 run = True
 clock = pygame.time.Clock()

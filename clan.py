@@ -6,6 +6,7 @@ class Clan():
     def __init__(self,name,warriors):
         self.name = name
         self.allCats = []
+        self.warriors =[]
 
         self.leader = Cat(randint(30,120),"Leader")#create leader
         self.leader.NPCSetup(RandomName(True) + "star")
@@ -21,9 +22,11 @@ class Clan():
             if SearchName(self.tempname,self.allCats) == True or AvoidName(self.tempname) == True:
                 I = I - 1 #skip this iteneration
                 print ("caught bad name " + self.tempname)
-            self.warrior = Cat(randint(25,120),"Warrior")
-            self.warrior.NPCSetup(self.tempname)
-            self.allCats.append(self.warrior)
+            else:
+                self.warrior = Cat(randint(25,120),"Warrior")
+                self.warrior.NPCSetup(self.tempname)
+                self.allCats.append(self.warrior)
+                self.warriors.append(self.warrior)
             I = I + 1
         I = 0
         
@@ -32,9 +35,10 @@ class Clan():
             if SearchName(self.tempname,self.allCats) == True or AvoidName(self.tempname) == True:
                 I = I - 1 #skip this iteneration
                 print ("caught bad name " + self.tempname)
-            self.apprentice = Cat(randint(6,25),"Apprentice")
-            self.apprentice.NPCSetup(self.tempname)
-            self.allCats.append(self.apprentice)
+            else:
+                self.apprentice = Cat(randint(6,25),"Apprentice")
+                self.apprentice.NPCSetup(self.tempname)
+                self.allCats.append(self.apprentice)
             I = I + 1
         I = 0
         while I < warriors * 0.2: #create elders
@@ -42,9 +46,10 @@ class Clan():
             if SearchName(self.tempname,self.allCats) == True or AvoidName(self.tempname) == True:
                 I = I - 1 #skip this iteneration
                 print ("caught bad name " + self.tempname)
-            self.elder = Cat(randint(120,150),"Elder")
-            self.elder.NPCSetup(self.tempname)
-            self.allCats.append(self.elder)
+            else:
+                self.elder = Cat(randint(120,150),"Elder")
+                self.elder.NPCSetup(self.tempname)
+                self.allCats.append(self.elder)
             I = I + 1
        
     def SayCats(self):
@@ -55,3 +60,6 @@ class Clan():
             I = I + 1
     def AddCat(self,newcat):
         self.allCats.append(newcat)
+    def ChooseMentor(self,apprentice):
+        self.newmentor = (self.warriors[randint(0,len(self.warriors))])
+        apprentice.MakeApprentice(self.newmentor)
