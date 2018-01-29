@@ -8,14 +8,16 @@ class Cat():
         self.name = None
         self.mentor = None
         self.apprentice = None
+        self.clan = None
     def Setup(self):
         inputname = raw_input ("Enter your name: ")
         inputname = inputname.capitalize()
         self.name = inputname + "paw"
         self.rank = "Apprentice"
         print ("Welcome " + self.name + "!")
-    def NPCSetup(self,name):
+    def NPCSetup(self,name,clan):
         self.name = name
+        self.clan = clan
 
     def SayName(self):
         return self.name

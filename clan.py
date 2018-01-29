@@ -10,12 +10,7 @@ class Clan():
         self.apprentices = []
         self.elders = []
         self.leadership = []
-        '''
-        self.leader = Cat(randint(30,120),"Leader")#create leader
-        self.leader.NPCSetup(RandomName(True) + "star")
-        self.allCats.append(self.leader)
-        self.leadership.append(self.leader)
-        '''
+        
         self.CreateCat("Leader",worldCats)#create leader
         self.CreateCat("Deputy",worldCats)#create deputy
         self.CreateCat("Medicine Cat",worldCats)#create medicine cat
@@ -47,7 +42,7 @@ class Clan():
                 self.CreateCat("Leader",worldcats)#try again
             else: #create cat
                 self.leader = Cat(randint(30,120),"Leader")#create leader
-                self.leader.NPCSetup(tempname)
+                self.leader.NPCSetup(tempname,self.name)
                 self.allCats.append(self.leader)
                 self.leadership.append(self.leader)
                 worldcats.append(self.leader)
@@ -57,7 +52,7 @@ class Clan():
                 self.CreateCat("Leader",worldcats)#try again
             else:
                 self.deputy = Cat(randint(25,120),"Deputy")
-                self.deputy.NPCSetup(tempname)
+                self.deputy.NPCSetup(tempname,self.name)
                 self.allCats.append(self.deputy)
                 self.leadership.append(self.deputy)
                 worldcats.append(self.deputy)
@@ -67,7 +62,7 @@ class Clan():
                 self.CreateCat("Leader",worldcats)#try again
             else:
                 self.medCat = Cat(randint(35,120),"Medicine Cat")
-                self.medCat.NPCSetup(tempname)
+                self.medCat.NPCSetup(tempname,self.name)
                 self.allCats.append(self.medCat)
                 self.leadership.append(self.medCat)
                 worldcats.append(self.medCat)
@@ -77,7 +72,7 @@ class Clan():
                 self.CreateCat("Leader",worldcats)#try again
             else:
                 self.newwarrior = Cat(randint(20,120),"Warrior")
-                self.newwarrior.NPCSetup(tempname)
+                self.newwarrior.NPCSetup(tempname,self.name)
                 self.allCats.append(self.newwarrior)
                 self.warriors.append(self.newwarrior)
                 worldcats.append(self.newwarrior)
@@ -87,7 +82,7 @@ class Clan():
                 self.CreateCat("Leader",worldcats)#try again
             else:
                 self.newbie = Cat(randint(6,22),"Apprentice")
-                self.newbie.NPCSetup(tempname)
+                self.newbie.NPCSetup(tempname,self.name)
                 self.allCats.append(self.newbie)
                 self.apprentices.append(self.newbie)
                 worldcats.append(self.newbie)
@@ -97,7 +92,7 @@ class Clan():
                 self.CreateCat("Leader",worldcats)#try again
             else:
                 self.elder =Cat(randint(105,140),"Elder")
-                self.elder.NPCSetup(tempname)
+                self.elder.NPCSetup(tempname,self.name)
                 self.allCats.append(self.elder)
                 self.elders.append(self.elder)
                 worldcats.append(self.elder)
@@ -105,6 +100,14 @@ class Clan():
     def AddCat(self,newcat,rank,worldcats):
         self.allCats.append(newcat)
         worldcats.append(newcat)
+        if newcat.SayRank() == "Leader" or newcat.SayRank() == "Deputy" or newcat.SayRank() == "Medicine Cat":
+            self.leadership.append(newcat)
+        elif newcat.SayRank() == "Warrior":
+            self.warriors.append(newcat)
+        elif newcat.SayRank() == "Apprentice":
+            self.apprentices.append(newcat)
+        elif newcat.SayRank() == "Elder":
+            self.elders.append(newcat)
     def ChooseMentor(self,apprentice):
         self.newmentor = (self.warriors[randint(0,len(self.warriors) - 1)])#not sure if I need the -1
         apprentice.MakeApprentice(self.newmentor)
