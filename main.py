@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, spritesheet
 from clan import Clan
 from Namegen import *
 from cat import Cat
@@ -7,11 +7,10 @@ from PIL import Image
 
 EveryCat = []
 
-kitty = Cat(6,'kit')
+kitty = Cat(6,'Kit')
 kitty.Setup()
-kitty.Ceramony("Apprentice")
 
-warriors = 10
+warriors = 2
 WindClan = Clan("WindClan",warriors,EveryCat)
 WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
@@ -38,7 +37,7 @@ player = pygame.Rect(100,100,300,150)
 playerspeed = 2
 jump = False
 ground = pygame.Rect(100,100,1000,10)
-#evil = pygame.image.load('cat.png')
+evil = pygame.image.load('cat.png')
 
 '''
 #sprite testing
@@ -59,16 +58,21 @@ while I < 274:
             pix[I,II] = background
         II = II + 1
     I= I+1
-#cat.show()
+cat.show()
 '''
-'''
+
 pygame.init()
 screen = pygame.display.set_mode((640, 480), 0, 32)
 pygame.display.set_caption('Warriors')
 
+#sprite testing
+catimage = spritesheet.spritesheet('cat.png')
+playerimage = catimage.image_at((0,0,48,32))
+
 def getKey(key):
     return pygame.key.get_pressed()[eval("pygame.K_"+key)]
-                                  
+imagey = 20
+imagex = 20
 #main loop
 while run:
     for event in pygame.event.get(): #handle exiting
@@ -79,14 +83,14 @@ while run:
     screen.fill(white)
     pygame.draw.rect(screen, black, player)
     pygame.draw.rect(screen, gray, ground)
-    screen.blit(evil, (20, 20))
+    screen.blit(playerimage, (imagex, imagey))
 
     #main code
-    if getKey("UP"): player.y-=1
-    if getKey("DOWN"): player.y+=1
-    if getKey("LEFT"): player.x-=1
-    if getKey("RIGHT"): player.x+=1
+    if getKey("UP"):  imagey-=1
+    if getKey("DOWN"): imagey+=1
+    if getKey("LEFT"): imagex-=1
+    if getKey("RIGHT"): imagex+=1
     pygame.display.flip()
     clock.tick(60)
 pygame.quit() # Quits the window
-'''
+

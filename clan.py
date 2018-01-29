@@ -111,4 +111,5 @@ class Clan():
     def ChooseMentor(self,apprentice):
         self.newmentor = (self.warriors[randint(0,len(self.warriors) - 1)])#not sure if I need the -1
         apprentice.MakeApprentice(self.newmentor)
+        self.newmentor.MakeMentor(apprentice)
 

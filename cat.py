@@ -1,5 +1,3 @@
-import string
-
 class Cat():
 
     def __init__(self,age,rank):
@@ -9,10 +7,11 @@ class Cat():
         self.mentor = None
         self.apprentice = None
         self.clan = None
+        self.firstname = None
     def Setup(self):
-        inputname = raw_input ("Enter your name: ")
-        inputname = inputname.capitalize()
-        self.name = inputname + "paw"
+        self.firstname = raw_input ("Enter your name: ")
+        self.firstnaem = self.firstname.capitalize()
+        self.name = self.firstname + "paw"
         self.rank = "Apprentice"
         print ("Welcome " + self.name + "!")
     def NPCSetup(self,name,clan):
@@ -23,11 +22,13 @@ class Cat():
         return self.name
     def SayRank(self):
         return self.rank
-    def Ceramony(self,newrank):
-        self.rank = newrank
-        print (self.SayName() + " is now a/an " + self.SayRank() + "!")
     def MakeApprentice(self,mentor):
         self.mentor = mentor
-        print  (self.name + " is now the apprentice of " + self.mentor.SayName())
-
+        self.rank = "Apprentice"
+        print  (self.name + ", your mentor is " + self.mentor.SayName() + "!")
+    def MakeMentor(self,apprentice):
+        self.apprentice = apprentice
+    def MakeWarrior(self,newname):
+        self.name = self.firstname + newname
+        print ("welcome " + self.SayName())
 
