@@ -36,7 +36,8 @@ gray = (200,200,200)
 player = pygame.Rect(100,100,300,150)
 playerspeed = 2
 jump = False
-ground = pygame.Rect(100,100,1000,10)
+Gravity = 1
+ground = pygame.Rect(10,400,1000,10)
 evil = pygame.image.load('cat.png')
 
 '''
@@ -86,7 +87,8 @@ while run:
     screen.blit(playerimage, (imagex, imagey))
 
     #main code
-    if getKey("UP"):  imagey-=1
+    if getKey("UP") and jump == True:  imagey-=10; jump = False
+    else: imagey+= Gravity; jump = True
     if getKey("DOWN"): imagey+=1
     if getKey("LEFT"): imagex-=1
     if getKey("RIGHT"): imagex+=1
