@@ -1,37 +1,52 @@
-# This class handles sprite sheets
-# This was taken from www.scriptefun.com/transcript-2-using
-# sprite-sheets-and-drawing-the-background
-# I've added some code to fail if the file wasn't found..
-# Note: When calling images_at the rect is the format:
-# (x, y, x + offset, y + offset)
-
+"""
+This module is used to pull individual sprites from sprite sheets.
+"""
 import pygame
-
-class spritesheet(object):
-    def __init__(self, filename):
-        try:
-            self.sheet = pygame.image.load(filename).convert()
-        except pygame.error, message:
-            print 'Unable to load spritesheet image:', filename
-            raise SystemExit, message
-    # Load a specific image from a specific rectangle
-    def image_at(self, rectangle, colorkey = None):
-        "Loads image from x,y,x+offset,y+offset"
-        rect = pygame.Rect(rectangle)
-        image = pygame.Surface(rect.size).convert()
-        image.blit(self.sheet, (0, 0), rect)
-        if colorkey is not None:
-            if colorkey is -1:
-                colorkey = image.get_at((0,0))
-            image.set_colorkey(colorkey, pygame.RLEACCEL)
+ 
+class SpriteSheet(object):
+    """ Class used to grab images out of a sprite sheet. """
+ 
+    def __init__(self, file_name):
+        """ Constructor. Pass in the file name of the sprite sheet. """
+ 
+        # Load the sprite sheet.
+        self.sprite_sheet = pygame.image.load(file_name).convert()
+        self.backgroundcol = (164,117,160)
+ 
+ 
+    def get_image(self, x, y, width, height):
+        """ Grab a single image out of a larger spritesheet
+            Pass in the x, y location of the sprite
+            and the width and height of the sprite. """
+ 
+        # Create a new blank image
+        image = pygame.Surface([width, height]).convert()
+ 
+        # Copy the sprite from the large sheet onto the smaller image
+        image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
+ 
+        # Assuming black works as the transparent color
+        image.set_colorkey(self.backgroundcol)
+ 
+        # Return the image
         return image
-    # Load a whole bunch of images and return them as a list
-    def images_at(self, rects, colorkey = None):
-        "Loads multiple images, supply a list of coordinates" 
-        return [self.image_at(rect, colorkey) for rect in rects]
-    # Load a whole strip of images
-    def load_strip(self, rect, image_count, colorkey = None):
-        "Loads a strip of images and returns them as a list"
-        tups = [(rect[0]+rect[2]*x, rect[1], rect[2], rect[3])
-                for x in range(image_count)]
-        return self.images_at(tups, colorkey)
+
+class GameEntity(object):
+    def __init__(self):
+        self.sheet = SpriteSheet('cat.png')
+        self.spritewidth = 22
+        self.spriteheight = 22
+        self.frames = [(0,0,self.spritewidth,self.spriteheight),
+                       (22,22,self.spritewidth,self.spriteheight),
+                       (22,48,self.spritewidth,self.spriteheight)]
+        self.images = []
+        I = 0
+        while I < len(self.frames):
+            self.images.append(self.sheet.get_image(self.frames[I]))
+        self.index = 0
+        self.image = self.images[self.index]
+    def update(self):
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
+        self.image = self.images[self.index]

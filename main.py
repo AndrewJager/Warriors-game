@@ -1,4 +1,5 @@
-import pygame, sys, spritesheet
+import pygame, sys
+from spritesheet import SpriteSheet, GameEntity
 from clan import Clan
 from Namegen import *
 from cat import Cat
@@ -67,8 +68,7 @@ screen = pygame.display.set_mode((640, 480), 0, 32)
 pygame.display.set_caption('Warriors')
 
 #sprite testing
-catimage = spritesheet.spritesheet('cat.png')
-playerimage = catimage.image_at((0,0,48,32))
+playerimage = GameEntity()
 
 def getKey(key):
     return pygame.key.get_pressed()[eval("pygame.K_"+key)]
@@ -84,6 +84,7 @@ while run:
     screen.fill(white)
     pygame.draw.rect(screen, black, player)
     pygame.draw.rect(screen, gray, ground)
+    playerimage.update()
     screen.blit(playerimage, (imagex, imagey))
 
     #main code
