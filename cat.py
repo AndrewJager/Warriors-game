@@ -9,7 +9,7 @@ class Cat():
         self.clan = None
         self.firstname = None
     def Setup(self):
-        self.firstname = raw_input ("Enter your name: ")
+        self.firstname = input ("Enter your name: ")
         self.firstnaem = self.firstname.capitalize()
         self.name = self.firstname + "paw"
         self.rank = "Apprentice"
