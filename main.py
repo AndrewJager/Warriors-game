@@ -1,5 +1,5 @@
 import pygame, sys
-from spritesheet import SpriteSheet, GameEntity
+from spritesheet import SpriteSheet
 from clan import Clan
 from Namegen import *
 from cat import Cat
@@ -68,7 +68,7 @@ screen = pygame.display.set_mode((640, 480), 0, 32)
 pygame.display.set_caption('Warriors')
 
 #sprite testing
-playerimage = GameEntity()
+
 
 def getKey(key):
     return pygame.key.get_pressed()[eval("pygame.K_"+key)]
@@ -84,8 +84,7 @@ while run:
     screen.fill(white)
     pygame.draw.rect(screen, black, player)
     pygame.draw.rect(screen, gray, ground)
-    playerimage.update()
-    screen.blit(playerimage, (imagex, imagey))
+    #screen.blit(playerimage, (imagex, imagey))
 
     #main code
     if getKey("UP") and jump == True:  imagey-=10; jump = False

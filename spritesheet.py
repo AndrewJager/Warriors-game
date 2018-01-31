@@ -30,23 +30,3 @@ class SpriteSheet(object):
  
         # Return the image
         return image
-
-class GameEntity(object):
-    def __init__(self):
-        self.sheet = SpriteSheet('cat.png')
-        self.spritewidth = 22
-        self.spriteheight = 22
-        self.frames = [(0,0,self.spritewidth,self.spriteheight),
-                       (22,22,self.spritewidth,self.spriteheight),
-                       (22,48,self.spritewidth,self.spriteheight)]
-        self.images = []
-        I = 0
-        while I < len(self.frames):
-            self.images.append(self.sheet.get_image(self.frames[I]))
-        self.index = 0
-        self.image = self.images[self.index]
-    def update(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[self.index]
