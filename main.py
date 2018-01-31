@@ -1,5 +1,5 @@
 import pygame, sys
-from spritesheet import SpriteSheet
+from spritesheet import Player, Wall
 from clan import Clan
 from Namegen import *
 from cat import Cat
@@ -10,6 +10,11 @@ EveryCat = []
 
 kitty = Cat(6,'Kit')
 kitty.Setup()
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (50, 50, 255)
 
 warriors = 2
 WindClan = Clan("WindClan",warriors,EveryCat)
@@ -28,6 +33,8 @@ I=0
 while I < len(EveryCat):
     print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
     I=I + 1
+
+
 
 run = True
 clock = pygame.time.Clock()
@@ -63,6 +70,30 @@ while I < 274:
 cat.show()
 '''
 
+# List to hold all the sprites
+all_sprite_list = pygame.sprite.Group()
+ 
+# Make the walls. (x_pos, y_pos, width, height)
+wall_list = pygame.sprite.Group()
+ 
+wall = Wall(0, 0, 10, 600)
+wall_list.add(wall)
+all_sprite_list.add(wall)
+ 
+wall = Wall(10, 0, 790, 10)
+wall_list.add(wall)
+all_sprite_list.add(wall)
+ 
+wall = Wall(10, 200, 100, 10)
+wall_list.add(wall)
+all_sprite_list.add(wall)
+ 
+# Create the player paddle object
+player = Player(50, 50)
+player.walls = wall_list
+ 
+all_sprite_list.add(player)
+
 pygame.init()
 screen = pygame.display.set_mode((640, 480), 0, 32)
 pygame.display.set_caption('Warriors')
@@ -75,24 +106,40 @@ def getKey(key):
 imagey = 20
 imagex = 20
 #main loop
-while run:
-    for event in pygame.event.get(): #handle exiting
-        if event.type == QUIT:
-            run = False 
-            break
-
-    screen.fill(white)
-    pygame.draw.rect(screen, black, player)
-    pygame.draw.rect(screen, gray, ground)
-    #screen.blit(playerimage, (imagex, imagey))
-
-    #main code
-    if getKey("UP") and jump == True:  imagey-=10; jump = False
-    else: imagey+= Gravity; jump = True
-    if getKey("DOWN"): imagey+=1
-    if getKey("LEFT"): imagex-=1
-    if getKey("RIGHT"): imagex+=1
+done = False
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+ 
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player.changespeed(-3, 0)
+            elif event.key == pygame.K_RIGHT:
+                player.changespeed(3, 0)
+            elif event.key == pygame.K_UP:
+                player.changespeed(0, -3)
+            elif event.key == pygame.K_DOWN:
+                player.changespeed(0, 3)
+ 
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                player.changespeed(3, 0)
+            elif event.key == pygame.K_RIGHT:
+                player.changespeed(-3, 0)
+            elif event.key == pygame.K_UP:
+                player.changespeed(0, 3)
+            elif event.key == pygame.K_DOWN:
+                player.changespeed(0, -3)
+ 
+    all_sprite_list.update()
+ 
+    screen.fill(BLACK)
+ 
+    all_sprite_list.draw(screen)
+ 
     pygame.display.flip()
+ 
     clock.tick(60)
 pygame.quit() # Quits the window
 

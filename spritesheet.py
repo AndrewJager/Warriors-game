@@ -1,32 +1,80 @@
-"""
-This module is used to pull individual sprites from sprite sheets.
-"""
+#basic sprite handling
 import pygame
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (50, 50, 255)
+
+class Player(pygame.sprite.Sprite):
+    """ This class represents the bar at the bottom that the player
+    controls. """
  
-class SpriteSheet(object):
-    """ Class used to grab images out of a sprite sheet. """
+    # Constructor function
+    def __init__(self, x, y):
+        # Call the parent's constructor
+        super().__init__()
  
-    def __init__(self, file_name):
-        """ Constructor. Pass in the file name of the sprite sheet. """
+        # Set height, width
+        self.image = pygame.Surface([15, 15])
+        self.image.fill(WHITE)
  
-        # Load the sprite sheet.
-        self.sprite_sheet = pygame.image.load(file_name).convert()
-        self.backgroundcol = (164,117,160)
+        # Make our top-left corner the passed-in location.
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
  
+        # Set speed vector
+        self.change_x = 0
+        self.change_y = 0
+        self.walls = None
  
-    def get_image(self, x, y, width, height):
-        """ Grab a single image out of a larger spritesheet
-            Pass in the x, y location of the sprite
-            and the width and height of the sprite. """
+    def changespeed(self, x, y):
+        """ Change the speed of the player. """
+        self.change_x += x
+        self.change_y += y
  
-        # Create a new blank image
-        image = pygame.Surface([width, height]).convert()
+    def update(self):
+        """ Update the player position. """
+        # Move left/right
+        self.rect.x += self.change_x
  
-        # Copy the sprite from the large sheet onto the smaller image
-        image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
+        # Did this update cause us to hit a wall?
+        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
+        for block in block_hit_list:
+            # If we are moving right, set our right side to the left side of
+            # the item we hit
+            if self.change_x > 0:
+                self.rect.right = block.rect.left
+            else:
+                # Otherwise if we are moving left, do the opposite.
+                self.rect.left = block.rect.right
  
-        # Assuming black works as the transparent color
-        image.set_colorkey(self.backgroundcol)
+        # Move up/down
+        self.rect.y += self.change_y
  
-        # Return the image
-        return image
+        # Check and see if we hit anything
+        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
+        for block in block_hit_list:
+ 
+            # Reset our position based on the top/bottom of the object.
+            if self.change_y > 0:
+                self.rect.bottom = block.rect.top
+            else:
+                self.rect.top = block.rect.bottom
+
+class Wall(pygame.sprite.Sprite):
+    """ Wall the player can run into. """
+    def __init__(self, x, y, width, height):
+        """ Constructor for the wall that the player can run into. """
+        # Call the parent's constructor
+        super().__init__()
+ 
+        # Make a blue wall, of the size specified in the parameters
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLUE)
+ 
+        # Make our top-left corner the passed-in location.
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
