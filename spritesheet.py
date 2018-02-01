@@ -1,5 +1,7 @@
 #basic sprite handling
 import pygame
+from random import randint
+from globalvars import *
 
 # Colors
 BLACK = (0, 0, 0)
@@ -11,13 +13,13 @@ class Player(pygame.sprite.Sprite):
     controls. """
  
     # Constructor function
-    def __init__(self, x, y):
+    def __init__(self, x, y,color):
         # Call the parent's constructor
         super().__init__()
  
         # Set height, width
         self.image = pygame.Surface([15, 15])
-        self.image.fill(WHITE)
+        self.image.fill(color)
  
         # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()
@@ -60,8 +62,11 @@ class Player(pygame.sprite.Sprite):
             # Reset our position based on the top/bottom of the object.
             if self.change_y > 0:
                 self.rect.bottom = block.rect.top
+                onground = True
+                print ("collided")
             else:
                 self.rect.top = block.rect.bottom
+                onground = False
 
 class Wall(pygame.sprite.Sprite):
     """ Wall the player can run into. """
@@ -72,7 +77,7 @@ class Wall(pygame.sprite.Sprite):
  
         # Make a blue wall, of the size specified in the parameters
         self.image = pygame.Surface([width, height])
-        self.image.fill(BLUE)
+        self.image.fill((randint(0,255),randint(0,255),randint(0,255)))
  
         # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()

@@ -5,11 +5,12 @@ from Namegen import *
 from cat import Cat
 from pygame.locals import *
 from PIL import Image
+from globalvars import *
 
 EveryCat = []
 
 kitty = Cat(6,'Kit')
-kitty.Setup()
+#kitty.Setup()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -18,9 +19,9 @@ BLUE = (50, 50, 255)
 
 warriors = 2
 WindClan = Clan("WindClan",warriors,EveryCat)
-WindClan.AddCat(kitty,"Apprentice",EveryCat)
+#WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
-WindClan.ChooseMentor(kitty)
+#WindClan.ChooseMentor(kitty)
 ThunderClan = Clan("ThunderClan",warriors+10,EveryCat)
 #ThunderClan.SayCats()
 ShadowClan = Clan("ShadowClan",0,EveryCat)#ShadowClan is dead
@@ -84,22 +85,18 @@ wall = Wall(10, 0, 790, 10)
 wall_list.add(wall)
 all_sprite_list.add(wall)
  
-wall = Wall(10, 200, 100, 10)
-wall_list.add(wall)
-all_sprite_list.add(wall)
+wall2 = Wall(30, 300, 1000, 10)
+wall_list.add(wall2)
+all_sprite_list.add(wall2)
  
 # Create the player paddle object
-player = Player(50, 50)
+player = Player(50, 50,(135,135,135))
 player.walls = wall_list
- 
 all_sprite_list.add(player)
 
 pygame.init()
 screen = pygame.display.set_mode((640, 480), 0, 32)
 pygame.display.set_caption('Warriors')
-
-#sprite testing
-
 
 def getKey(key):
     return pygame.key.get_pressed()[eval("pygame.K_"+key)]
@@ -108,32 +105,37 @@ imagex = 20
 #main loop
 done = False
 while not done:
+    if onground == True:
+        gravity = 0
+    else:
+        gravity = gravity + 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
- 
+       
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player.changespeed(-3, 0)
+                player.changespeed(-speed, 0)
             elif event.key == pygame.K_RIGHT:
-                player.changespeed(3, 0)
+                player.changespeed(speed, 0)
             elif event.key == pygame.K_UP:
-                player.changespeed(0, -3)
+                player.changespeed(0, -speed)
             elif event.key == pygame.K_DOWN:
-                player.changespeed(0, 3)
+                player.changespeed(0, speed)
  
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-                player.changespeed(3, 0)
+                player.changespeed(speed, 0)
             elif event.key == pygame.K_RIGHT:
-                player.changespeed(-3, 0)
+                player.changespeed(-speed, 0)
             elif event.key == pygame.K_UP:
-                player.changespeed(0, 3)
+                player.changespeed(0, gravity)
             elif event.key == pygame.K_DOWN:
-                player.changespeed(0, -3)
+                player.changespeed(0, -speed)
+                
  
     all_sprite_list.update()
- 
+    print(gravity)
     screen.fill(BLACK)
  
     all_sprite_list.draw(screen)
