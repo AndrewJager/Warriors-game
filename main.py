@@ -1,28 +1,24 @@
 import pygame, sys
-from spritesheet import Player, Wall
 from clan import Clan
 from Namegen import *
 from cat import Cat
 from pygame.locals import *
-from PIL import Image
 from globalvars import *
+from gameentity import GameEntity
+
+import levels
 
 EveryCat = []
 
 kitty = Cat(6,'Kit')
 #kitty.Setup()
 
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-BLUE = (50, 50, 255)
-
 warriors = 2
 WindClan = Clan("WindClan",warriors,EveryCat)
 #WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
 #WindClan.ChooseMentor(kitty)
-ThunderClan = Clan("ThunderClan",warriors+10,EveryCat)
+ThunderClan = Clan("ThunderClan",warriors * 10,EveryCat)
 #ThunderClan.SayCats()
 ShadowClan = Clan("ShadowClan",0,EveryCat)#ShadowClan is dead
 #ShadowClan.SayCats()
@@ -35,113 +31,114 @@ while I < len(EveryCat):
     print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
     I=I + 1
 
-
-
-run = True
 clock = pygame.time.Clock()
-black = (0,0,0)
-white = (255,255,255)
-gray = (200,200,200)
-player = pygame.Rect(100,100,300,150)
-playerspeed = 2
-jump = False
-Gravity = 1
-ground = pygame.Rect(10,400,1000,10)
-evil = pygame.image.load('cat.png')
 
-'''
-#sprite testing
-cat = Image.open("cat.png")
-pix=cat.load()
-value = (45, 35, 65, 255)
-background = (255, 255, 255, 0)
-keyvalue = (56,56,56,255)
-keyvalue2 = (164, 117, 160, 255)
-I = 0
-II = 0
-while I < 274:
-    II = 0
-    while II < 100:
-        if pix[I,II] == keyvalue:#key cat
-            pix[I,II] = value
-        if pix[I,II] == keyvalue2:#key background
-            pix[I,II] = background
-        II = II + 1
-    I= I+1
-cat.show()
-'''
-
-# List to hold all the sprites
-all_sprite_list = pygame.sprite.Group()
- 
-# Make the walls. (x_pos, y_pos, width, height)
-wall_list = pygame.sprite.Group()
- 
-wall = Wall(0, 0, 10, 600)
-wall_list.add(wall)
-all_sprite_list.add(wall)
- 
-wall = Wall(10, 0, 790, 10)
-wall_list.add(wall)
-all_sprite_list.add(wall)
- 
-wall2 = Wall(30, 300, 1000, 10)
-wall_list.add(wall2)
-all_sprite_list.add(wall2)
- 
-# Create the player paddle object
-player = Player(50, 50,(135,135,135))
-player.walls = wall_list
-all_sprite_list.add(player)
-
-pygame.init()
-screen = pygame.display.set_mode((640, 480), 0, 32)
-pygame.display.set_caption('Warriors')
 
 def getKey(key):
     return pygame.key.get_pressed()[eval("pygame.K_"+key)]
-imagey = 20
-imagex = 20
-#main loop
-done = False
-while not done:
-    if onground == True:
-        gravity = 0
-    else:
-        gravity = gravity + 1
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-       
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                player.changespeed(-speed, 0)
-            elif event.key == pygame.K_RIGHT:
-                player.changespeed(speed, 0)
-            elif event.key == pygame.K_UP:
-                player.changespeed(0, -speed)
-            elif event.key == pygame.K_DOWN:
-                player.changespeed(0, speed)
- 
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
-                player.changespeed(speed, 0)
-            elif event.key == pygame.K_RIGHT:
-                player.changespeed(-speed, 0)
-            elif event.key == pygame.K_UP:
-                player.changespeed(0, gravity)
-            elif event.key == pygame.K_DOWN:
-                player.changespeed(0, -speed)
-                
- 
-    all_sprite_list.update()
-    print(gravity)
-    screen.fill(BLACK)
- 
-    all_sprite_list.draw(screen)
- 
-    pygame.display.flip()
- 
-    clock.tick(60)
-pygame.quit() # Quits the window
 
+def main():
+    """ Main Program """
+    pygame.init()
+
+    # Set the height and width of the screen
+    size = [SCREEN_WIDTH, SCREEN_HEIGHT]
+    screen = pygame.display.set_mode(size)
+
+    pygame.display.set_caption("Cats are evil")
+
+    # Create the player
+    player = GameEntity()
+
+    # Create all the levels
+    level_list = []
+    level_list.append(levels.Level_01(player))
+    level_list.append(levels.Level_02(player))
+
+    # Set the current level
+    current_level_no = 0
+    current_level = level_list[current_level_no]
+
+    active_sprite_list = pygame.sprite.Group()
+    player.level = current_level
+
+    player.rect.x = 340
+    player.rect.y = SCREEN_HEIGHT - player.rect.height
+    active_sprite_list.add(player)
+
+    #Loop until the user clicks the close button.
+    done = False
+
+    # Used to manage how fast the screen updates
+    clock = pygame.time.Clock()
+
+    # -------- Main Program Loop -----------
+    while not done:
+        for event in pygame.event.get(): # User did something
+            if event.type == pygame.QUIT: # If user clicked close
+                done = True # Flag that we are done so we exit this loop
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LSHIFT:
+                    player.running = True
+                if event.key == pygame.K_LEFT:
+                    player.go_left()
+                if event.key == pygame.K_RIGHT:
+                    player.go_right()
+                if event.key == pygame.K_UP:
+                    player.jump()
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT and player.change_x < 0:
+                    player.stop()
+                if event.key == pygame.K_RIGHT and player.change_x > 0:
+                    player.stop()
+                if event.key == pygame.K_LSHIFT:
+                    player.running = False
+
+        # Update the player.
+        active_sprite_list.update()
+
+        # Update items in the level
+        current_level.update()
+        '''
+        # If the player gets near the right side, shift the world left (-x)
+        if player.rect.x >= 500:
+            diff = player.rect.x - 500
+            player.rect.x = 500
+            current_level.shift_world(-diff)
+
+        # If the player gets near the left side, shift the world right (+x)
+        if player.rect.x <= 120:
+            diff = 120 - player.rect.x
+            player.rect.x = 120
+            current_level.shift_world(diff)
+        '''
+
+        # If the player gets to the end of the level, go to the next level
+        current_position = player.rect.x + current_level.world_shift
+        if current_position < current_level.level_limit:
+            player.rect.x = 120
+            if current_level_no < len(level_list)-1:
+                current_level_no += 1
+                current_level = level_list[current_level_no]
+                player.level = current_level
+
+        # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+        current_level.draw(screen)
+        active_sprite_list.draw(screen)
+
+        # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
+
+        # Limit to 60 frames per second
+        clock.tick(60)
+
+        # Go ahead and update the screen with what we've drawn.
+        pygame.display.flip()
+
+    # Be IDLE friendly. If you forget this line, the program will 'hang'
+    # on exit.
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()

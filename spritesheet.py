@@ -1,85 +1,54 @@
-#basic sprite handling
-import pygame
-from random import randint
-from globalvars import *
+"""
+This module is used to pull individual sprites from sprite sheets.
+"""
+import pygame, os
+from PIL import Image
+import globalvars
 
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-BLUE = (50, 50, 255)
+class SpriteSheet(object):
+    """ Class used to grab images out of a sprite sheet. """
+    # This points to our sprite sheet image
+    sprite_sheet = None
 
-class Player(pygame.sprite.Sprite):
-    """ This class represents the bar at the bottom that the player
-    controls. """
- 
-    # Constructor function
-    def __init__(self, x, y,color):
-        # Call the parent's constructor
-        super().__init__()
- 
-        # Set height, width
-        self.image = pygame.Surface([15, 15])
-        self.image.fill(color)
- 
-        # Make our top-left corner the passed-in location.
-        self.rect = self.image.get_rect()
-        self.rect.y = y
-        self.rect.x = x
- 
-        # Set speed vector
-        self.change_x = 0
-        self.change_y = 0
-        self.walls = None
- 
-    def changespeed(self, x, y):
-        """ Change the speed of the player. """
-        self.change_x += x
-        self.change_y += y
- 
-    def update(self):
-        """ Update the player position. """
-        # Move left/right
-        self.rect.x += self.change_x
- 
-        # Did this update cause us to hit a wall?
-        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
-        for block in block_hit_list:
-            # If we are moving right, set our right side to the left side of
-            # the item we hit
-            if self.change_x > 0:
-                self.rect.right = block.rect.left
-            else:
-                # Otherwise if we are moving left, do the opposite.
-                self.rect.left = block.rect.right
- 
-        # Move up/down
-        self.rect.y += self.change_y
- 
-        # Check and see if we hit anything
-        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
-        for block in block_hit_list:
- 
-            # Reset our position based on the top/bottom of the object.
-            if self.change_y > 0:
-                self.rect.bottom = block.rect.top
-                onground = True
-                print ("collided")
-            else:
-                self.rect.top = block.rect.bottom
-                onground = False
+    def __init__(self, file_name,key,cat):
+        """ Constructor. Pass in the file name of the sprite sheet. """
 
-class Wall(pygame.sprite.Sprite):
-    """ Wall the player can run into. """
-    def __init__(self, x, y, width, height):
-        """ Constructor for the wall that the player can run into. """
-        # Call the parent's constructor
-        super().__init__()
- 
-        # Make a blue wall, of the size specified in the parameters
-        self.image = pygame.Surface([width, height])
-        self.image.fill((randint(0,255),randint(0,255),randint(0,255)))
- 
-        # Make our top-left corner the passed-in location.
-        self.rect = self.image.get_rect()
-        self.rect.y = y
-        self.rect.x = x
+        # Load the sprite sheet.
+        #self.key_image(file_name,(56,56,56),(200,200,200))
+        self.sprite_sheet = pygame.image.load(file_name).convert()
+        self.keycolor = cat
+
+    def get_image(self, x, y, width, height):
+        """ Grab a single image out of a larger spritesheet
+            Pass in the x, y location of the sprite
+            and the width and height of the sprite. """
+
+        # Create a new blank image
+        image = pygame.Surface([width, height]).convert()
+
+        # Copy the sprite from the large sheet onto the smaller image
+        image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
+        
+        # Assuming black works as the transparent color
+        image.set_colorkey(self.keycolor)
+        
+        # Return the image
+        return image
+
+def key_image(image, newcolor,path = "C:/Users/DELL/Desktop/Animation/Warriors/Warriors-game/Images",filename="cat.png"):
+    cat = Image.open("Images/cat.png")
+    pix=cat.load()
+    keycolor = pix[9,13] #get current fur color
+    I = 0
+    II = 0
+    while I < 274:
+        II = 0
+        while II < 100:
+            if pix[I,II] == keycolor:#key cat
+                pix[I,II] = newcolor
+            II = II + 1
+        I= I+1
+    fullpath = os.path.join(path, filename)
+    #cat.show()
+    cat.save(fullpath)
+    cat.close()

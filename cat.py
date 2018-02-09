@@ -10,7 +10,7 @@ class Cat():
         self.firstname = None
     def Setup(self):
         self.firstname = input ("Enter your name: ")
-        self.firstnaem = self.firstname.capitalize()
+        self.firstname = self.firstname.capitalize()
         self.name = self.firstname + "paw"
         self.rank = "Apprentice"
         print ("Welcome " + self.name + "!")
@@ -30,5 +30,6 @@ class Cat():
         self.apprentice = apprentice
     def MakeWarrior(self,newname):
         self.name = self.firstname + newname
-        print ("welcome " + self.SayName())
+        self.mentor = None
+        print (self.SayName() + " is now a warrior!")
 
