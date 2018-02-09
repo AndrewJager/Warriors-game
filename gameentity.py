@@ -3,12 +3,13 @@ This module is used to hold the Player class. The Player represents the user-
 controlled sprite on the screen.
 """
 import pygame
+from cat import Cat
 
 import globalvars
 #from platforms import MovingPlatform
 from spritesheet import SpriteSheet, key_image
 
-class GameEntity(pygame.sprite.Sprite):
+class GameEntity(pygame.sprite.Sprite,Cat):
     """ This class represents the bar at the bottom that the player
     controls. """
 
@@ -41,11 +42,12 @@ class GameEntity(pygame.sprite.Sprite):
     jumpPower = 5 #y axis boost while jumping
 
     # -- Methods
-    def __init__(self):
+    def __init__(self,age,rank):
         """ Constructor function """
-        key_image("Images/cat.png",(200,200,200,255)) #change fur color to any color(please don't make it white)
+        key_image("Images/cat.png",(150,150,150,255)) #change fur color to any color(please don't make it white)
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
+        Cat.__init__(self,age,rank)
 
         sprite_sheet = SpriteSheet("Images/cat.png",True,globalvars.WHITE)
         

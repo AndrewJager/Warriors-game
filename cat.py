@@ -8,6 +8,7 @@ class Cat():
         self.apprentice = None
         self.clan = None
         self.firstname = None
+        self.fur = None
     def Setup(self):
         self.firstname = input ("Enter your name: ")
         self.firstname = self.firstname.capitalize()

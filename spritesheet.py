@@ -39,6 +39,8 @@ def key_image(image, newcolor,path = "C:/Users/DELL/Desktop/Animation/Warriors/W
     cat = Image.open("Images/cat.png")
     pix=cat.load()
     keycolor = pix[9,13] #get current fur color
+    shadecolor = pix[14,23]
+    newshade = (abs(newcolor[0] // 3),abs(newcolor[1] // 3),abs(newcolor[2] // 3),255)
     I = 0
     II = 0
     while I < 274:
@@ -46,6 +48,8 @@ def key_image(image, newcolor,path = "C:/Users/DELL/Desktop/Animation/Warriors/W
         while II < 100:
             if pix[I,II] == keycolor:#key cat
                 pix[I,II] = newcolor
+            if pix[I,II] == shadecolor: #key shadowed legs
+                pix[I,II] = newshade
             II = II + 1
         I= I+1
     fullpath = os.path.join(path, filename)
