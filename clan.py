@@ -21,6 +21,7 @@ class Clan():
         I = 0
         
         while I < warriors * 0.15: #create apprentices
+            
             self.CreateCat("Apprentice",worldCats)
             I = I + 1
         I = 0
@@ -109,7 +110,7 @@ class Clan():
         elif newcat.SayRank() == "Elder":
             self.elders.append(newcat)
     def ChooseMentor(self,apprentice):
-        self.newmentor = (self.warriors[randint(0,len(self.warriors) - 1)])#not sure if I need the -1
+        self.newmentor = (self.warriors[randint(0,len(self.warriors) - 1)])
         apprentice.MakeApprentice(self.newmentor)
         self.newmentor.MakeMentor(apprentice)
 

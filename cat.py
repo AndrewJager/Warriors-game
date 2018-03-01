@@ -15,6 +15,11 @@ class Cat():
         self.name = self.firstname + "paw"
         self.rank = "Apprentice"
         print ("Welcome " + self.name + "!")
+        red = input('Enter the red value')
+        green = input('enter the green value')
+        blue = input('enter the blue value')
+        self.fur = (red,green,blue)
+        print (self.fur)
     def NPCSetup(self,name,clan):
         self.name = name
         self.clan = clan

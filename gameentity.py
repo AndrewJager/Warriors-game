@@ -3,10 +3,10 @@ This module is used to hold the Player class. The Player represents the user-
 controlled sprite on the screen.
 """
 import pygame
+from random import randint
 from cat import Cat
 
 import globalvars
-#from platforms import MovingPlatform
 from spritesheet import SpriteSheet, key_image
 
 class GameEntity(pygame.sprite.Sprite,Cat):
@@ -20,6 +20,8 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     
     playerWidth = 40
     playerHeight = 32
+    
+    updatetime = 0 #used for updating ai control
 
     # This holds all the images for the animated walk left/right
     # of our player
@@ -44,7 +46,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     # -- Methods
     def __init__(self,age,rank):
         """ Constructor function """
-        key_image("Images/cat.png",(150,150,150,255)) #change fur color to any color(please don't make it white)
+        key_image("Images/cat.png",(35,45,45,255)) #change fur color to any color(please don't make it white)
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
         Cat.__init__(self,age,rank)
@@ -133,7 +135,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
 
         # Move left/right
         self.rect.x += self.change_x
-        pos = self.rect.x + self.level.world_shift
+        pos = self.rect.x 
         if self.running == True:
             if self.direction == "R":
                 frame = (pos // 30) % len(self.running_frames_r)
@@ -239,3 +241,16 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         """ Called when the user lets off the keyboard. """
         self.change_x = 0
         self.direction = "S"
+        
+    def AIupdate(self):#update an AI entity
+        if self.updatetime == 25:
+            choice = randint(0,2)
+            if choice == 0:
+                self.go_right()
+            elif choice == 1:
+                self.go_left()
+            elif choice == 2:
+                self.jump()
+            self.updatetime = 0
+        else:
+            self.updatetime = self.updatetime + 1

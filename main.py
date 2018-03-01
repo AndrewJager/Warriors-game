@@ -10,6 +10,7 @@ from gameentity import GameEntity
 import levels
 
 EveryCat = []
+AIcats = []
 
 warriors = 2
 WindClan = Clan("WindClan",warriors,EveryCat)
@@ -26,7 +27,7 @@ RiverClan = Clan("RiverClan",warriors,EveryCat)
 
 I=0
 while I < len(EveryCat):
-    print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
+    #print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
     I=I + 1
 
 clock = pygame.time.Clock()
@@ -48,7 +49,17 @@ def main():
     # Create the player
     player = GameEntity(6,'kit')
     #player.Setup()
-    print(player.SayName())
+    #print(player.SayName())
+    
+    bluestar = GameEntity(45,'Leader')
+    bluestar.NPCSetup("Bluestar",ThunderClan)
+    bluestar.rect.x = 340
+    bluestar.rect.y = SCREEN_HEIGHT - player.rect.height
+    tigerclaw = GameEntity(24,'Deputy')
+    tigerclaw.NPCSetup("Bluestar",ThunderClan)
+    tigerclaw.rect.x = 340
+    tigerclaw.rect.y = SCREEN_HEIGHT - player.rect.height
+    
 
     # Create all the levels
     level_list = []
@@ -61,11 +72,18 @@ def main():
     current_level = level_list[current_level_no]
 
     active_sprite_list = pygame.sprite.Group()
+    AI_sprite_list = pygame.sprite.Group()
     player.level = current_level
+    bluestar.level = current_level
+    tigerclaw.level = current_level
 
     player.rect.x = 340
     player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
+    AI_sprite_list.add(bluestar)
+    AI_sprite_list.add(tigerclaw)
+    AIcats.append(bluestar)
+    AIcats.append(tigerclaw)
 
     #Loop until the user clicks the close button.
     done = False
@@ -99,12 +117,19 @@ def main():
 
         # Update the player.
         active_sprite_list.update()
+        
+        # update AI entitys
+        AI_sprite_list.update()
+        I=0
+        while I < len(AIcats):
+            AIcats[I].AIupdate()
+            I=I + 1
 
         # Update items in the level
         current_level.update()
 
         # If the player gets to the end of the level, go to the next level
-        current_position = player.rect.x + current_level.world_shift
+        current_position = player.rect.x
         if current_position < current_level.level_limit:
             player.rect.x = 120
             if current_level_no < len(level_list)-1:
@@ -115,6 +140,7 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
         active_sprite_list.draw(screen)
+        AI_sprite_list.draw(screen)
 
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
