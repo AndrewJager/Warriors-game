@@ -41,3 +41,7 @@ def AvoidName(target):
         if target == BadNames[I]: return True
         I = I + 1
     return False
+
+def RandomFur():
+    fur = (random.randint(10,100),random.randint(10,100),random.randint(10,100))
+    return fur

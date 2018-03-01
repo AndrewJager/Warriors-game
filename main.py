@@ -23,35 +23,27 @@ pygame.display.set_caption("Cats are evil")
 
 
 
-warriors = 10
+warriors = 1
 WindClan = Clan("WindClan",warriors,EveryCat)
 #WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
 #WindClan.ChooseMentor(kitty)
-ThunderClan = Clan("ThunderClan",warriors * 10,EveryCat)
+ThunderClan = Clan("ThunderClan",warriors,EveryCat)
 #ThunderClan.SayCats()
-ShadowClan = Clan("ShadowClan",0,EveryCat)#ShadowClan is dead
+ShadowClan = Clan("ShadowClan",warriors,EveryCat)#ShadowClan is dead
 #ShadowClan.SayCats()
 RiverClan = Clan("RiverClan",warriors,EveryCat)
 #RiverClan.SayCats()
 #SkyClan isn't a real clan
 
-I=0
-while I < len(EveryCat):
-    #print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
-    I=I + 1
+
 
 # Create the player
-player = GameEntity(6,'kit')
+player = GameEntity(6,'kit',RandomFur())
+player.Setup()
+player.CreateSprite()
 #player.Setup()
 #print(player.SayName())
-
-bluestar = GameEntity(45,'Leader')
-bluestar.NPCSetup("Bluestar",ThunderClan)
-
-tigerclaw = GameEntity(24,'Deputy')
-tigerclaw.NPCSetup("Bluestar",ThunderClan)
-
 
 
 #level_list.append(levels.ForestCamp(player))
@@ -65,9 +57,11 @@ AI_sprite_list = pygame.sprite.Group()
 
 
 active_sprite_list.add(player)
-bluestar.PutSprite(AI_sprite_list,AIcats)
-AI_sprite_list.add(tigerclaw)
-AIcats.append(tigerclaw)
+I=0
+while I < len(EveryCat):
+    #print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
+    EveryCat[I].PutSprite(AI_sprite_list,AIcats)
+    I=I + 1
 
 
 

@@ -45,23 +45,28 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     jumpPower = 5 #y axis boost while jumping
 
     # -- Methods
-    def __init__(self,age,rank,isAI = True,AIGroup = None, PlayerGroup = None):
+    def __init__(self,age,rank,pelt,isAI = True,AIGroup = None, PlayerGroup = None):
         """ Constructor function """
-        key_image("Images/cat.png",(35,45,45,255)) #change fur color to any color(please don't make it white)
         pygame.sprite.Sprite.__init__(self)
         Cat.__init__(self,age,rank)
-        
-        
-        
-        #call player or AI specific setup functions
         self.isAI = isAI
-        if isAI == True:
+        self.fur = pelt
+        
+       
+    def PlayerSetup(self):
+        key_image("Images/cat.png",(70,220,70,255)) #change fur color to any color(please don't make it white)
+    def AISetup(self):
+        key_image("Images/cat.png",self.fur,filename = self.SayName() + '.png') #change fur color to any color(please don't make it white)
+    def CreateSprite(self):
+         #call player or AI specific setup functions
+        print(self.SayName())
+        if self.isAI == True:
             self.AISetup()
         else:
             self.PlayerSetup()
         
         #create spritesheet
-        sprite_sheet = SpriteSheet("Images/cat.png",True,globalvars.WHITE)
+        sprite_sheet = SpriteSheet("Images/Cats/" + self.SayName() + ".png",True,globalvars.WHITE)
         
         # Load all the left facing walk cycle images, them flip them.
         image = sprite_sheet.get_image(2, 33, self.playerWidth, self.playerHeight)
@@ -139,10 +144,6 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         self.rect = self.image.get_rect()
         self.rect.x = 340
         self.rect.y = globalvars.SCREEN_HEIGHT - self.rect.height
-    def PlayerSetup(self):
-        I=0
-    def AISetup(self):
-        I=0
     def PutSprite(self,spriteList,entityList):#add sprite to list of sprites to render
         spriteList.add(self)
         entityList.append(self)

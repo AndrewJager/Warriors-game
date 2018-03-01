@@ -43,8 +43,9 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else: #create cat
-                self.leader = GameEntity(randint(30,120),"Leader")#create leader
+                self.leader = GameEntity(randint(30,120),"Leader",RandomFur())#create leader
                 self.leader.NPCSetup(tempname,self.name)
+                self.leader.CreateSprite()
                 self.allCats.append(self.leader)
                 self.leadership.append(self.leader)
                 worldcats.append(self.leader)
@@ -53,8 +54,9 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else:
-                self.deputy = Cat(randint(25,120),"Deputy")
+                self.deputy = GameEntity(randint(25,120),"Deputy",RandomFur())
                 self.deputy.NPCSetup(tempname,self.name)
+                self.deputy.CreateSprite()
                 self.allCats.append(self.deputy)
                 self.leadership.append(self.deputy)
                 worldcats.append(self.deputy)
@@ -63,8 +65,9 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else:
-                self.medCat = Cat(randint(35,120),"Medicine Cat")
+                self.medCat = GameEntity(randint(35,120),"Medicine Cat",RandomFur())
                 self.medCat.NPCSetup(tempname,self.name)
+                self.medCat.CreateSprite()
                 self.allCats.append(self.medCat)
                 self.leadership.append(self.medCat)
                 worldcats.append(self.medCat)
@@ -73,8 +76,9 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else:
-                self.newwarrior = Cat(randint(20,120),"Warrior")
+                self.newwarrior = GameEntity(randint(20,120),"Warrior",RandomFur())
                 self.newwarrior.NPCSetup(tempname,self.name)
+                self.newwarrior.CreateSprite()
                 self.allCats.append(self.newwarrior)
                 self.warriors.append(self.newwarrior)
                 worldcats.append(self.newwarrior)
@@ -83,8 +87,9 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else:
-                self.newbie = Cat(randint(6,22),"Apprentice")
+                self.newbie = GameEntity(randint(6,22),"Apprentice",RandomFur())
                 self.newbie.NPCSetup(tempname,self.name)
+                self.newbie.CreateSprite()
                 self.allCats.append(self.newbie)
                 self.apprentices.append(self.newbie)
                 worldcats.append(self.newbie)
@@ -93,13 +98,14 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else:
-                self.elder =Cat(randint(105,140),"Elder")
+                self.elder = GameEntity(randint(105,140),"Elder",RandomFur())
                 self.elder.NPCSetup(tempname,self.name)
+                self.elder.CreateSprite()
                 self.allCats.append(self.elder)
                 self.elders.append(self.elder)
                 worldcats.append(self.elder)
         
-    def AddCat(self,newcat,rank,worldcats):
+    def AddCat(self,newcat,rank,worldcats):#adds an existing cat to the clan
         self.allCats.append(newcat)
         worldcats.append(newcat)
         if newcat.SayRank() == "Leader" or newcat.SayRank() == "Deputy" or newcat.SayRank() == "Medicine Cat":

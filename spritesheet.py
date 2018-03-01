@@ -10,13 +10,13 @@ class SpriteSheet(object):
     # This points to our sprite sheet image
     sprite_sheet = None
 
-    def __init__(self, file_name,key,cat):
+    def __init__(self, file_name,key,keycolor):
         """ Constructor. Pass in the file name of the sprite sheet. """
 
         # Load the sprite sheet.
         #self.key_image(file_name,(56,56,56),(200,200,200))
         self.sprite_sheet = pygame.image.load(file_name).convert()
-        self.keycolor = cat
+        self.keycolor = keycolor
 
     def get_image(self, x, y, width, height):
         """ Grab a single image out of a larger spritesheet
@@ -35,7 +35,8 @@ class SpriteSheet(object):
         # Return the image
         return image
 
-def key_image(image, newcolor,path = "C:/Users/DELL/Desktop/Animation/Warriors/Warriors-game/Images",filename="cat.png"):
+def key_image(image, newcolor,path = "C:/Users/DELL/Desktop/Animation/Warriors/Warriors-game/Images/Cats",filename="cat"):
+    #filename = "cat.png"
     cat = Image.open("Images/cat.png")
     pix=cat.load()
     keycolor = pix[9,13] #get current fur color
