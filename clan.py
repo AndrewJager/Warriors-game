@@ -113,4 +113,6 @@ class Clan():
         self.newmentor = (self.warriors[randint(0,len(self.warriors) - 1)])
         apprentice.MakeApprentice(self.newmentor)
         self.newmentor.MakeMentor(apprentice)
+    def SayLeader(self):
+        return self.leader
 

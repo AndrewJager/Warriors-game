@@ -44,13 +44,21 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     jumpPower = 5 #y axis boost while jumping
 
     # -- Methods
-    def __init__(self,age,rank):
+    def __init__(self,age,rank,isAI = True,AIGroup = None, PlayerGroup = None):
         """ Constructor function """
         key_image("Images/cat.png",(35,45,45,255)) #change fur color to any color(please don't make it white)
-        # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
         Cat.__init__(self,age,rank)
-
+        
+        
+        
+        #call player or AI specific setup functions
+        if isAI == True:
+            self.AISetup()
+        else:
+            self.PlayerSetup()
+        
+        #create spritesheet
         sprite_sheet = SpriteSheet("Images/cat.png",True,globalvars.WHITE)
         
         # Load all the left facing walk cycle images, them flip them.
@@ -127,6 +135,12 @@ class GameEntity(pygame.sprite.Sprite,Cat):
 
         # Set a referance to the image rect.
         self.rect = self.image.get_rect()
+        self.rect.x = 340
+        self.rect.y = globalvars.SCREEN_HEIGHT - self.rect.height
+    def PlayerSetup(self):
+        I=0
+    def AISetup(self):
+        I=0
 
     def update(self):
         """ Move the player. """

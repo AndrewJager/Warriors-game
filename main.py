@@ -12,7 +12,7 @@ import levels
 EveryCat = []
 AIcats = []
 
-warriors = 2
+warriors = 10
 WindClan = Clan("WindClan",warriors,EveryCat)
 #WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
@@ -39,6 +39,8 @@ def getKey(key):
 def main():
     """ Main Program """
     pygame.init()
+    
+    
 
     # Set the height and width of the screen
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
@@ -51,14 +53,12 @@ def main():
     #player.Setup()
     #print(player.SayName())
     
-    bluestar = GameEntity(45,'Leader')
+    leader = GameEntity(45,'Leader')
     bluestar.NPCSetup("Bluestar",ThunderClan)
-    bluestar.rect.x = 340
-    bluestar.rect.y = SCREEN_HEIGHT - player.rect.height
+    
     tigerclaw = GameEntity(24,'Deputy')
     tigerclaw.NPCSetup("Bluestar",ThunderClan)
-    tigerclaw.rect.x = 340
-    tigerclaw.rect.y = SCREEN_HEIGHT - player.rect.height
+    
     
 
     # Create all the levels
@@ -74,16 +74,16 @@ def main():
     active_sprite_list = pygame.sprite.Group()
     AI_sprite_list = pygame.sprite.Group()
     player.level = current_level
-    bluestar.level = current_level
-    tigerclaw.level = current_level
 
-    player.rect.x = 340
-    player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
     AI_sprite_list.add(bluestar)
     AI_sprite_list.add(tigerclaw)
     AIcats.append(bluestar)
     AIcats.append(tigerclaw)
+    
+    while I < len(AIcats):
+            AIcats[I].level = current_level
+            I=I + 1
 
     #Loop until the user clicks the close button.
     done = False
