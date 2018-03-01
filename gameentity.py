@@ -25,10 +25,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
 
     # This holds all the images for the animated walk left/right
     # of our player
-    walking_frames_l = []
-    walking_frames_r = []
-    running_frames_l = []
-    running_frames_r = []
+    
 
     # What direction is the player facing?
     direction = "R"
@@ -51,6 +48,10 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         Cat.__init__(self,age,rank)
         self.isAI = isAI
         self.fur = pelt
+        self.walking_frames_l = []
+        self.walking_frames_r = []
+        self.running_frames_l = []
+        self.running_frames_r = []
         
        
     def PlayerSetup(self):
@@ -136,13 +137,12 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         image = pygame.transform.flip(image, True, False)
         self.running_frames_r.append(image)
         
-        
         # Set the image the player starts with
         self.image = self.walking_frames_r[0]
 
         # Set a referance to the image rect.
         self.rect = self.image.get_rect()
-        self.rect.x = 340
+        self.rect.x = 340 #this is where the cat is created
         self.rect.y = globalvars.SCREEN_HEIGHT - self.rect.height
     def PutSprite(self,spriteList,entityList):#add sprite to list of sprites to render
         spriteList.add(self)
@@ -264,13 +264,15 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         
     def AIupdate(self):#update an AI entity
         if self.updatetime == 25:
-            choice = randint(0,2)
+            choice = randint(0,3)
             if choice == 0:
                 self.go_right()
             elif choice == 1:
                 self.go_left()
             elif choice == 2:
                 self.jump()
+            elif choice == 3:
+                self.stop()
             self.updatetime = 0
         else:
             self.updatetime = self.updatetime + 1

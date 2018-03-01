@@ -23,7 +23,7 @@ pygame.display.set_caption("Cats are evil")
 
 
 
-warriors = 1
+warriors = 2
 WindClan = Clan("WindClan",warriors,EveryCat)
 #WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
@@ -35,8 +35,6 @@ ShadowClan = Clan("ShadowClan",warriors,EveryCat)#ShadowClan is dead
 RiverClan = Clan("RiverClan",warriors,EveryCat)
 #RiverClan.SayCats()
 #SkyClan isn't a real clan
-
-
 
 # Create the player
 player = GameEntity(6,'kit',RandomFur())
