@@ -1,6 +1,7 @@
 from Namegen import *
 from random import randint
 from cat import Cat
+from gameentity import GameEntity
 
 class Clan():
     def __init__(self,name,warriors,worldCats):
@@ -42,7 +43,7 @@ class Clan():
             if SearchName(tempname,worldcats) == True or AvoidName(tempname) == True:
                 self.CreateCat("Leader",worldcats)#try again
             else: #create cat
-                self.leader = Cat(randint(30,120),"Leader")#create leader
+                self.leader = GameEntity(randint(30,120),"Leader")#create leader
                 self.leader.NPCSetup(tempname,self.name)
                 self.allCats.append(self.leader)
                 self.leadership.append(self.leader)

@@ -9,8 +9,19 @@ from gameentity import GameEntity
 
 import levels
 
+level_list = []
 EveryCat = []
 AIcats = []
+pygame.init()
+
+
+
+# Set the height and width of the screen
+size = [SCREEN_WIDTH, SCREEN_HEIGHT]
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Cats are evil")
+
+
 
 warriors = 10
 WindClan = Clan("WindClan",warriors,EveryCat)
@@ -30,7 +41,39 @@ while I < len(EveryCat):
     #print (EveryCat[I].SayRank() + ": " + EveryCat[I].SayName())
     I=I + 1
 
+# Create the player
+player = GameEntity(6,'kit')
+#player.Setup()
+#print(player.SayName())
+
+bluestar = GameEntity(45,'Leader')
+bluestar.NPCSetup("Bluestar",ThunderClan)
+
+tigerclaw = GameEntity(24,'Deputy')
+tigerclaw.NPCSetup("Bluestar",ThunderClan)
+
+
+
+#level_list.append(levels.ForestCamp(player))
+level_list.append(levels.Level_01(player))
+level_list.append(levels.Level_02(player))
+
+
+
+active_sprite_list = pygame.sprite.Group()
+AI_sprite_list = pygame.sprite.Group()
+
+
+active_sprite_list.add(player)
+bluestar.PutSprite(AI_sprite_list,AIcats)
+AI_sprite_list.add(tigerclaw)
+AIcats.append(tigerclaw)
+
+
+
+# Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+  
 
 
 def getKey(key):
@@ -38,58 +81,17 @@ def getKey(key):
 
 def main():
     """ Main Program """
-    pygame.init()
-    
-    
-
-    # Set the height and width of the screen
-    size = [SCREEN_WIDTH, SCREEN_HEIGHT]
-    screen = pygame.display.set_mode(size)
-
-    pygame.display.set_caption("Cats are evil")
-    
-    # Create the player
-    player = GameEntity(6,'kit')
-    #player.Setup()
-    #print(player.SayName())
-    
-    leader = GameEntity(45,'Leader')
-    bluestar.NPCSetup("Bluestar",ThunderClan)
-    
-    tigerclaw = GameEntity(24,'Deputy')
-    tigerclaw.NPCSetup("Bluestar",ThunderClan)
-    
-    
-
-    # Create all the levels
-    level_list = []
-    #level_list.append(levels.ForestCamp(player))
-    level_list.append(levels.Level_01(player))
-    level_list.append(levels.Level_02(player))
-
-    # Set the current level
+    # Set the current level(this is in main because python is annoying)
     current_level_no = 0
     current_level = level_list[current_level_no]
-
-    active_sprite_list = pygame.sprite.Group()
-    AI_sprite_list = pygame.sprite.Group()
     player.level = current_level
-
-    active_sprite_list.add(player)
-    AI_sprite_list.add(bluestar)
-    AI_sprite_list.add(tigerclaw)
-    AIcats.append(bluestar)
-    AIcats.append(tigerclaw)
-    
+    I = 0
     while I < len(AIcats):
             AIcats[I].level = current_level
             I=I + 1
 
     #Loop until the user clicks the close button.
     done = False
-
-    # Used to manage how fast the screen updates
-    clock = pygame.time.Clock()
 
     # -------- Main Program Loop -----------
     while not done:
@@ -156,4 +158,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 

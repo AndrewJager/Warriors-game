@@ -34,6 +34,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     direction = "R"
     
     running = False
+    isAI = True
 
     # List of sprites we can bump against
     level = None
@@ -53,6 +54,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         
         
         #call player or AI specific setup functions
+        self.isAI = isAI
         if isAI == True:
             self.AISetup()
         else:
@@ -141,6 +143,9 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         I=0
     def AISetup(self):
         I=0
+    def PutSprite(self,spriteList,entityList):#add sprite to list of sprites to render
+        spriteList.add(self)
+        entityList.append(self)
 
     def update(self):
         """ Move the player. """
