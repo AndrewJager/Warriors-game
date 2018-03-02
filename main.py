@@ -5,6 +5,7 @@ from cat import Cat
 from pygame.locals import *
 from globalvars import *
 from gameentity import GameEntity
+import os, shutil
 
 
 import levels
@@ -37,7 +38,7 @@ RiverClan = Clan("RiverClan",warriors,EveryCat)
 #SkyClan isn't a real clan
 
 # Create the player
-player = GameEntity(6,'kit',RandomFur())
+player = GameEntity(6,'kit',RandomFur(),isAI = False)
 player.Setup()
 player.CreateSprite()
 
@@ -52,6 +53,7 @@ level_list.append(levels.Level_02(player))
 cats = nameFont.render(str(len(EveryCat)),False,(0,0,0))
 
 active_sprite_list = pygame.sprite.Group()
+
 AI_sprite_list = pygame.sprite.Group()
 
 
@@ -158,5 +160,14 @@ def main():
 if __name__ == "__main__":
     main()
 
+#delete all generated cat images
+folder = 'Images/Cats'
+for the_file in os.listdir(folder):
+    file_path = os.path.join(folder, the_file)
+    try:
+        if os.path.isfile(file_path):
+            os.unlink(file_path)
+    except Exception as e:
+        print(e)
 
 

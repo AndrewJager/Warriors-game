@@ -19,7 +19,7 @@ class Cat():
         #green = input('enter the green value')
         #blue = input('enter the blue value')
         #self.fur = (red,green,blue)
-        print (self.fur)
+        
     def NPCSetup(self,name,clan):
         self.name = name
         self.clan = clan

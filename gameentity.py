@@ -59,7 +59,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         
        
     def PlayerSetup(self):
-        key_image("Images/cat.png",(70,220,70,255)) #change fur color to any color(please don't make it white)
+        key_image("Images/cat.png",(70,220,70,255),filename = self.SayName() + '.png') #change fur color to any color(please don't make it white)
     def AISetup(self):
         key_image("Images/cat.png",self.fur,filename = self.SayName() + '.png') #change fur color to any color(please don't make it white)
     def CreateSprite(self):
@@ -270,15 +270,24 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         
     def AIupdate(self):#update an AI entity
         if self.updatetime == 25:
-            choice = randint(0,3)
+            choice = randint(0,5)
             if choice == 0:
                 self.go_right()
+                self.running = False
             elif choice == 1:
                 self.go_left()
+                self.running = False
             elif choice == 2:
                 self.jump()
             elif choice == 3:
                 self.stop()
+                self.running = False
+            elif choice == 4:
+                self.go_right()
+                self.running = True
+            elif choice == 5:
+                self.go_left()
+                self.running = True
             self.updatetime = 0
         else:
             self.updatetime = self.updatetime + 1
