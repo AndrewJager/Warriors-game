@@ -40,6 +40,8 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     runningSpeed = 6
     jumpBoost = 3 #x axis boost while jumping
     jumpPower = 5 #y axis boost while jumping
+    
+    
 
     # -- Methods
     def __init__(self,age,rank,pelt,isAI = True,AIGroup = None, PlayerGroup = None):
@@ -52,6 +54,8 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         self.walking_frames_r = []
         self.running_frames_l = []
         self.running_frames_r = []
+        self.Display = None
+        self.nameFont = pygame.font.SysFont('Comic Sans MS',12)
         
        
     def PlayerSetup(self):
@@ -60,7 +64,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         key_image("Images/cat.png",self.fur,filename = self.SayName() + '.png') #change fur color to any color(please don't make it white)
     def CreateSprite(self):
          #call player or AI specific setup functions
-        print(self.SayName())
+        
         if self.isAI == True:
             self.AISetup()
         else:
@@ -144,6 +148,8 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         self.rect = self.image.get_rect()
         self.rect.x = 340 #this is where the cat is created
         self.rect.y = globalvars.SCREEN_HEIGHT - self.rect.height
+        
+        self.Display = self.nameFont.render(str(self.name),False,(0,0,0))
     def PutSprite(self,spriteList,entityList):#add sprite to list of sprites to render
         spriteList.add(self)
         entityList.append(self)
@@ -276,3 +282,4 @@ class GameEntity(pygame.sprite.Sprite,Cat):
             self.updatetime = 0
         else:
             self.updatetime = self.updatetime + 1
+    

@@ -12,10 +12,10 @@ import levels
 level_list = []
 EveryCat = []
 AIcats = []
+
 pygame.init()
-
-
-
+pygame.font.init()
+nameFont = pygame.font.SysFont('Comic Sans MS',30)
 # Set the height and width of the screen
 size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 screen = pygame.display.set_mode(size)
@@ -23,7 +23,7 @@ pygame.display.set_caption("Cats are evil")
 
 
 
-warriors = 2
+warriors = 0
 WindClan = Clan("WindClan",warriors,EveryCat)
 #WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
@@ -40,6 +40,7 @@ RiverClan = Clan("RiverClan",warriors,EveryCat)
 player = GameEntity(6,'kit',RandomFur())
 player.Setup()
 player.CreateSprite()
+
 #player.Setup()
 #print(player.SayName())
 
@@ -48,7 +49,7 @@ player.CreateSprite()
 level_list.append(levels.Level_01(player))
 level_list.append(levels.Level_02(player))
 
-
+cats = nameFont.render(str(len(EveryCat)),False,(0,0,0))
 
 active_sprite_list = pygame.sprite.Group()
 AI_sprite_list = pygame.sprite.Group()
@@ -61,7 +62,7 @@ while I < len(EveryCat):
     EveryCat[I].PutSprite(AI_sprite_list,AIcats)
     I=I + 1
 
-
+EveryCat.append(player)
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -135,7 +136,13 @@ def main():
         current_level.draw(screen)
         active_sprite_list.draw(screen)
         AI_sprite_list.draw(screen)
-
+        
+        #display cat names
+        I=0
+        while I < len(EveryCat):
+            screen.blit(EveryCat[I].Display,(EveryCat[I].rect.x,EveryCat[I].rect.y - 10))
+            I = I + 1
+        screen.blit(cats,(400,0))
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
         # Limit to 60 frames per second
