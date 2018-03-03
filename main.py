@@ -50,7 +50,7 @@ player.CreateSprite()
 level_list.append(levels.Level_01(player))
 level_list.append(levels.Level_02(player))
 
-cats = nameFont.render(str(len(EveryCat)),False,(0,0,0))
+
 
 active_sprite_list = pygame.sprite.Group()
 
@@ -69,7 +69,7 @@ EveryCat.append(player)
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
   
-
+cats = nameFont.render(str(len(EveryCat)),False,(0,0,0))
 
 def getKey(key):
     return pygame.key.get_pressed()[eval("pygame.K_"+key)]

@@ -30,8 +30,8 @@ class GameEntity(pygame.sprite.Sprite,Cat):
     # What direction is the player facing?
     direction = "R"
     
-    running = False
-    isAI = True
+    
+    
 
     # List of sprites we can bump against
     level = None
@@ -54,8 +54,15 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         self.walking_frames_r = []
         self.running_frames_l = []
         self.running_frames_r = []
+        self.idle_frames_l = []
+        self.idle_frames_r = []
+        self.sit_frames_l = []
+        self.sit_frames_r = []
         self.Display = None
         self.nameFont = pygame.font.SysFont('Comic Sans MS',12)
+        self.running = False
+        self.jumping = False
+        self.isAI = True
         
        
     def PlayerSetup(self):
@@ -141,8 +148,36 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         image = pygame.transform.flip(image, True, False)
         self.running_frames_r.append(image)
         
+        #load left facing idle frames
+        image = sprite_sheet.get_image(0,0,self.playerWidth, self.playerHeight)
+        self.idle_frames_l.append(image)
+        image = sprite_sheet.get_image(41,0,self.playerWidth, self.playerHeight)
+        self.idle_frames_l.append(image)
+        
+        #load right facing idle frames
+        image = sprite_sheet.get_image(0,0,self.playerWidth, self.playerHeight)
+        image = pygame.transform.flip(image, True, False)
+        self.idle_frames_r.append(image)
+        image = sprite_sheet.get_image(41,0,self.playerWidth, self.playerHeight)
+        image = pygame.transform.flip(image, True, False)
+        self.idle_frames_r.append(image)
+        
+        #load left facing sit frames
+        image = sprite_sheet.get_image(84,0,self.playerWidth, self.playerHeight)
+        self.sit_frames_l.append(image)
+        image = sprite_sheet.get_image(125,0,self.playerWidth, self.playerHeight)
+        self.sit_frames_l.append(image)
+        
+        #load right facing sit frames
+        image = sprite_sheet.get_image(84,0,self.playerWidth, self.playerHeight)
+        image = pygame.transform.flip(image, True, False)
+        self.sit_frames_r.append(image)
+        image = sprite_sheet.get_image(125,0,self.playerWidth, self.playerHeight)
+        image = pygame.transform.flip(image, True, False)
+        self.sit_frames_r.append(image)
+        
         # Set the image the player starts with
-        self.image = self.walking_frames_r[0]
+        self.image = self.sit_frames_r[1]
 
         # Set a referance to the image rect.
         self.rect = self.image.get_rect()
@@ -267,6 +302,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         """ Called when the user lets off the keyboard. """
         self.change_x = 0
         self.direction = "S"
+        self.running = False
         
     def AIupdate(self):#update an AI entity
         if self.updatetime == 25:
