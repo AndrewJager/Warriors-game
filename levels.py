@@ -1,6 +1,7 @@
 import pygame
 
 import globalvars
+from random import randint
 import platforms
 
 class Level():
@@ -101,15 +102,42 @@ class Level_02(Level):
         # Call the parent constructor
         Level.__init__(self, player)
 
-        self.background = pygame.image.load("Images/background.png").convert()
+        self.background = pygame.image.load("Images/background1.png").convert()
         self.background.set_colorkey(globalvars.WHITE)
         self.level_limit = -1000
 
+        platform_x = globalvars.SCREEN_WIDTH / 24
+        ground_base = 550
+        shift = 35
+        noise = 5
+
         # Array with type of platform, and x, y location of the platform.
-        level = [ 
+        level = [[platforms.ROCK,(platform_x * 1) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 2) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 3) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 4) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 5) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 6) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 7) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 8) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 9) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 10) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 11) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 12) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 13) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 14) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 15) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 16) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 17) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 18) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 19) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 20) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 21) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 22) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 23) - shift,ground_base + randint(-noise,noise)],
+                 [platforms.ROCK,(platform_x * 24) - shift,ground_base + randint(-noise,noise)]
                   ]
-
-
+        
         # Go through the array above and add platforms
         for platform in level:
             block = platforms.Platform(platform[0])

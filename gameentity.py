@@ -182,7 +182,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         # Set a referance to the image rect.
         self.rect = self.image.get_rect()
         self.rect.x = 340 #this is where the cat is created
-        self.rect.y = SCREEN_HEIGHT - self.rect.height
+        self.rect.y = (SCREEN_HEIGHT - self.rect.height) - 200
         
         self.Display = self.nameFont.render(str(self.name),False,(0,0,0))
     def PutSprite(self,spriteList,entityList):#add sprite to list of sprites to render

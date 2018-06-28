@@ -76,13 +76,15 @@ def getKey(key):
 def main():
     """ Main Program """
     # Set the current level(this is in main because python is annoying)
-    current_level_no = 0
+    current_level_no = 1
     current_level = level_list[current_level_no]
     player.level = current_level
     I = 0
     while I < len(AIcats):
             AIcats[I].level = current_level
             I=I + 1
+            
+    test = pygame.draw.rect(screen,BLACK,pygame.Rect(0,0,10,10)) 
 
     #Loop until the user clicks the close button.
     done = False
@@ -160,6 +162,9 @@ def main():
 
         # Update items in the level
         current_level.update()
+        
+        
+
 
         # If the player gets to the end of the level, go to the next level
         current_position = player.rect.x
