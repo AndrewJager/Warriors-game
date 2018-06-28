@@ -6,7 +6,7 @@ import pygame
 from random import randint
 from cat import Cat
 
-import globalvars
+from globalvars import *
 from spritesheet import SpriteSheet, key_image
 
 class GameEntity(pygame.sprite.Sprite,Cat):
@@ -78,7 +78,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
             self.PlayerSetup()
         
         #create spritesheet
-        sprite_sheet = SpriteSheet("Images/Cats/" + self.SayName() + ".png",True,globalvars.WHITE)
+        sprite_sheet = SpriteSheet("Images/Cats/" + self.SayName() + ".png",True,WHITE)
         
         # Load all the left facing walk cycle images, them flip them.
         image = sprite_sheet.get_image(2, 33, self.playerWidth, self.playerHeight)
@@ -182,7 +182,7 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         # Set a referance to the image rect.
         self.rect = self.image.get_rect()
         self.rect.x = 340 #this is where the cat is created
-        self.rect.y = globalvars.SCREEN_HEIGHT - self.rect.height
+        self.rect.y = SCREEN_HEIGHT - self.rect.height
         
         self.Display = self.nameFont.render(str(self.name),False,(0,0,0))
     def PutSprite(self,spriteList,entityList):#add sprite to list of sprites to render
@@ -198,19 +198,19 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         self.rect.x += self.change_x
         pos = self.rect.x 
         if self.running == True:
-            if self.direction == "R":
+            if self.direction == "L":
                 frame = (pos // 30) % len(self.running_frames_r)
                 self.image = self.running_frames_r[frame]
-            elif self.direction == "L":
+            elif self.direction == "R":
                 frame = (pos // 30) % len(self.running_frames_l)
                 self.image = self.running_frames_l[frame]
             else:
                 self.image = self.image
         else:
-            if self.direction == "R":
+            if self.direction == "L":
                 frame = (pos // 30) % len(self.walking_frames_r)
                 self.image = self.walking_frames_r[frame]
-            elif self.direction == "L":
+            elif self.direction == "R":
                 frame = (pos // 30) % len(self.walking_frames_l)
                 self.image = self.walking_frames_l[frame]
             else:
@@ -253,9 +253,9 @@ class GameEntity(pygame.sprite.Sprite,Cat):
             self.change_y += .35
 
         # See if we are on the ground.
-        if self.rect.y >= globalvars.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
+        if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
             self.change_y = 0
-            self.rect.y = globalvars.SCREEN_HEIGHT - self.rect.height
+            self.rect.y = SCREEN_HEIGHT - self.rect.height
 
     def jump(self):
         """ Called when user hits 'jump' button. """
@@ -268,35 +268,45 @@ class GameEntity(pygame.sprite.Sprite,Cat):
         self.rect.y -= 2
 
         # If it is ok to jump, set our speed upwards
-        if len(platform_hit_list) > 0 or self.rect.bottom >= globalvars.SCREEN_HEIGHT:
+        if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
             self.change_y = -self.jumpPower
-            if self.direction == "L":
-                if self.running == True:
-                    self.change_x = -(self.runningSpeed + self.jumpBoost)
-                else:
-                    self.change_x = -(self.baseSpeed + self.jumpBoost)
-            elif self.direction == "R":
-                if self.running == True:
-                    self.change_x = self.runningSpeed + self.jumpBoost
-                else:
-                    self.change_x = self.baseSpeed + self.jumpBoost
-            else:
-                self.change_x = 0
+#            if self.direction == "L":
+#                if self.running == True:
+#                    self.change_x = -(JumpBoost + RunSpeed)
+#                else:
+#                    self.change_x = -(JumpBoost + BaseSpeed)
+#            elif self.direction == "R":
+#                if self.running == True:
+#                    self.change_x = self.runningSpeed + self.jumpBoost
+#                else:
+#                    self.change_x = self.baseSpeed + self.jumpBoost
+#            else:
+#                self.change_x = 0
 
     # Player-controlled movement:
-    def go_left(self):
-        """ Called when the user hits the left arrow. """
-        if self.running == True:
-            self.change_x = -self.runningSpeed
-        else: self.change_x = -self.baseSpeed
-        self.direction = "L"
-
     def go_right(self):
-        """ Called when the user hits the right arrow. """
-        if self.running == True:
-            self.change_x = self.runningSpeed
-        else: self.change_x = self.baseSpeed
+        """ Called when the user hits the left arrow. """
+        self.change_x = -BaseSpeed
         self.direction = "R"
+        self.running = False
+
+    def go_left(self):
+        """ Called when the user hits the right arrow. """
+        self.change_x = BaseSpeed
+        self.direction = "L"
+        self.running = False
+    
+    def run_right(self):
+        """ Called when the user hits the left arrow. """
+        self.change_x = -RunSpeed
+        self.direction = "R"
+        self.running = True
+
+    def run_left(self):
+        """ Called when the user hits the right arrow. """
+        self.change_x = RunSpeed
+        self.direction = "L"
+        self.running = True
 
     def stop(self):
         """ Called when the user lets off the keyboard. """

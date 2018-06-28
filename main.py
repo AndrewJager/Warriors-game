@@ -17,23 +17,22 @@ AIcats = []
 pygame.init()
 pygame.font.init()
 nameFont = pygame.font.SysFont('Comic Sans MS',30)
+
 # Set the height and width of the screen
 size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Cats are evil")
-
-
 
 warriors = 0
 WindClan = Clan("WindClan",warriors,EveryCat)
 #WindClan.AddCat(kitty,"Apprentice",EveryCat)
 #WindClan.SayCats()
 #WindClan.ChooseMentor(kitty)
-ThunderClan = Clan("ThunderClan",warriors,EveryCat)
+#ThunderClan = Clan("ThunderClan",warriors,EveryCat)
 #ThunderClan.SayCats()
-ShadowClan = Clan("ShadowClan",warriors,EveryCat)#ShadowClan is dead
+#ShadowClan = Clan("ShadowClan",warriors,EveryCat)
 #ShadowClan.SayCats()
-RiverClan = Clan("RiverClan",warriors,EveryCat)
+#RiverClan = Clan("RiverClan",warriors,EveryCat)
 #RiverClan.SayCats()
 #SkyClan isn't a real clan
 
@@ -87,30 +86,67 @@ def main():
 
     #Loop until the user clicks the close button.
     done = False
+    
+    #player control variables
+    isRight = False
+    isLeft = False
+    isUp = False
+    isDown = False
+    isCtrl = False
+    isShift = False
 
     # -------- Main Program Loop -----------
     while not done:
         for event in pygame.event.get(): # User did something
             if event.type == pygame.QUIT: # If user clicked close
                 done = True # Flag that we are done so we exit this loop
-
+            
+            #get key values
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LSHIFT:
-                    player.running = True
-                if event.key == pygame.K_LEFT:
-                    player.go_left()
-                if event.key == pygame.K_RIGHT:
-                    player.go_right()
-                if event.key == pygame.K_UP:
-                    player.jump()
-
+                if event.key == KeyRight:
+                    isRight = True
+                if event.key == KeyLeft:
+                    isLeft = True
+                if event.key == KeyUp:
+                    isUp = True
+                if event.key == KeyDown:
+                    isDown = True
+                if event.key == KeyCtrl:
+                    isCtrl = True  
+                if event.key == KeyShift:
+                    isShift = True
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT and player.change_x < 0:
-                    player.stop()
-                if event.key == pygame.K_RIGHT and player.change_x > 0:
-                    player.stop()
-                if event.key == pygame.K_LSHIFT:
-                    player.running = False
+                if event.key == KeyRight:
+                    isRight = False
+                if event.key == KeyLeft:
+                    isLeft = False
+                if event.key == KeyUp:
+                    isUp = False
+                if event.key == KeyDown:
+                    isDown = False
+                if event.key == KeyCtrl:
+                    isCtrl = False
+                if event.key == KeyShift:
+                    isShift = False
+        
+        #control player
+        if not isShift:
+            if isRight:
+                player.go_right()
+            if isLeft:
+                player.go_left()
+            if isUp:
+                player.jump()
+        else:
+            if isRight:
+                player.run_right()
+            if isLeft:
+                player.run_left()
+            if isUp:
+                player.jump()
+
+        if (not isRight) and (not isLeft):
+            player.stop()
 
         # Update the player.
         active_sprite_list.update()
