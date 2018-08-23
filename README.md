@@ -1,4 +1,7 @@
 # Warriors-game
+
+THIS PROJECT IS NO LONGER BEING DEVELOPED. For a similar project of mine, see https://github.com/CatsAreEvil/Forest-Cats
+
 A "multiplayer" game based of the warriors book series
 
 All sprites are public domain.
